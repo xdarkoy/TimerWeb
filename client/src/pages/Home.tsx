@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import VideoModal from '@/components/VideoModal';
+import DemoRequestModal from '@/components/DemoRequestModal';
 import { 
   Clock, Calendar, FolderKanban, FileBarChart, 
   CalendarClock, Shield, Check, ArrowRight,
@@ -26,10 +29,12 @@ import {
 
 export default function Home() {
   const { t } = useLanguage();
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onDemoClick={() => setIsDemoModalOpen(true)} />
       
       {/* Hero Section */}
       <section className="relative pt-24 lg:pt-32 pb-20 lg:pb-32 overflow-hidden">
@@ -68,11 +73,20 @@ export default function Home() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-lg px-8">
+                <Button 
+                  size="lg" 
+                  className="bg-primary hover:bg-primary/90 text-lg px-8"
+                  onClick={() => setIsDemoModalOpen(true)}
+                >
                   {t('hero.cta.primary')}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="text-lg px-8"
+                  onClick={() => setIsVideoModalOpen(true)}
+                >
                   {t('hero.cta.secondary')}
                 </Button>
               </div>
@@ -482,7 +496,11 @@ export default function Home() {
               <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
                 {t('cta.subtitle')}
               </p>
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8">
+              <Button 
+                size="lg" 
+                className="bg-white text-primary hover:bg-white/90 text-lg px-8"
+                onClick={() => setIsDemoModalOpen(true)}
+              >
                 {t('cta.button')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -492,6 +510,16 @@ export default function Home() {
       </section>
 
       <Footer />
+
+      {/* Modals */}
+      <VideoModal 
+        isOpen={isVideoModalOpen} 
+        onClose={() => setIsVideoModalOpen(false)} 
+      />
+      <DemoRequestModal 
+        isOpen={isDemoModalOpen} 
+        onClose={() => setIsDemoModalOpen(false)} 
+      />
     </div>
   );
 }

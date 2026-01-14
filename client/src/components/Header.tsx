@@ -15,7 +15,11 @@ const languages: { code: Language; name: string; flag: string }[] = [
   { code: 'hr', name: 'Hrvatski', flag: '🇭🇷' },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  onDemoClick?: () => void;
+}
+
+export default function Header({ onDemoClick }: HeaderProps) {
   const { language, setLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -83,7 +87,11 @@ export default function Header() {
             <Button variant="ghost" size="sm">
               {t('nav.login')}
             </Button>
-            <Button size="sm" className="bg-primary hover:bg-primary/90">
+            <Button 
+              size="sm" 
+              className="bg-primary hover:bg-primary/90"
+              onClick={onDemoClick}
+            >
               {t('nav.demo')}
             </Button>
           </div>
@@ -131,7 +139,14 @@ export default function Header() {
                 <Button variant="outline" size="sm">
                   {t('nav.login')}
                 </Button>
-                <Button size="sm" className="bg-primary hover:bg-primary/90">
+                <Button 
+                  size="sm" 
+                  className="bg-primary hover:bg-primary/90"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onDemoClick?.();
+                  }}
+                >
                   {t('nav.demo')}
                 </Button>
               </div>
