@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'wouter';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -29,8 +30,13 @@ import {
 
 export default function Home() {
   const { t } = useLanguage();
+  const [, navigate] = useLocation();
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
+
+  const handleStartClick = () => {
+    navigate('/checkout');
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -76,7 +82,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="bg-primary hover:bg-primary/90 text-lg px-8"
-                  onClick={() => setIsDemoModalOpen(true)}
+                  onClick={handleStartClick}
                 >
                   {t('hero.cta.primary')}
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -360,7 +366,7 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={handleStartClick}>
                     {t('pricing.cta')}
                   </Button>
                 </CardContent>
@@ -401,7 +407,7 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full bg-primary hover:bg-primary/90">
+                  <Button className="w-full bg-primary hover:bg-primary/90" onClick={handleStartClick}>
                     {t('pricing.cta')}
                   </Button>
                 </CardContent>
@@ -439,7 +445,7 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => setIsDemoModalOpen(true)}>
                     {t('pricing.cta.contact')}
                   </Button>
                 </CardContent>
